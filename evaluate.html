@@ -5,14 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Avaliacao — Pesquisa DA/FI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>Avaliacao de Documentos</h1>
-      <p id="evaluator-info">Carregando...</p>
+  <header class="eval-header">
+    <div class="container eval-header-inner">
+      <div class="eval-header-left">
+        <div class="hero-monogram hero-monogram-sm" aria-hidden="true">AIP</div>
+        <div>
+          <h1>Avalia&ccedil;&atilde;o de Documentos</h1>
+          <p id="evaluator-info">Carregando...</p>
+        </div>
+      </div>
+      <div class="floating-progress" id="floating-progress">
+        <div class="floating-progress-label">Progresso</div>
+        <div class="floating-progress-bar">
+          <div class="floating-progress-fill" id="floating-progress-fill" style="width:0%"></div>
+        </div>
+        <div class="floating-progress-time" id="floating-time">Tempo est.: ~45 min</div>
+      </div>
     </div>
   </header>
 
@@ -52,29 +64,29 @@
       </div>
 
       <!-- Briefing (shown once at start) -->
-      <div id="briefing-card" class="card">
-        <h2>Contexto do Caso</h2>
+      <div id="briefing-card" class="card card-accent eval-transition">
+        <h2 class="section-heading">Contexto do Caso</h2>
         <div class="alert alert-info">
           Leia o briefing abaixo antes de avaliar os documentos. Todos os 3 documentos respondem a este mesmo caso.
         </div>
-        <div id="briefing-content" class="doc-viewer"></div>
+        <div id="briefing-content" class="doc-viewer doc-viewer-enhanced"></div>
         <button class="btn btn-primary btn-lg btn-block" onclick="startEvaluation()" style="margin-top:1rem">
-          Entendi o caso. Iniciar avaliacao.
+          Entendi o caso &mdash; Iniciar avalia&ccedil;&atilde;o
         </button>
       </div>
 
       <!-- Document evaluation (repeated for A, B, C) -->
-      <div id="doc-eval" class="hidden">
-        <div class="card">
-          <h2 id="doc-title">Documento A</h2>
+      <div id="doc-eval" class="hidden eval-transition">
+        <div class="card card-accent">
+          <h2 class="section-heading" id="doc-title">Documento A</h2>
           <div class="alert alert-warning">
-            Leia o documento completo antes de avaliar. Use a barra de rolagem se necessario.
+            Leia o documento completo antes de avaliar. Use a barra de rolagem se necess&aacute;rio.
           </div>
-          <div id="doc-content" class="doc-viewer"></div>
+          <div id="doc-content" class="doc-viewer doc-viewer-enhanced"></div>
         </div>
 
-        <div class="card">
-          <h3>Avaliacao — <span id="doc-eval-title">Documento A</span></h3>
+        <div class="card card-accent">
+          <h3>Avalia&ccedil;&atilde;o &mdash; <span id="doc-eval-title">Documento A</span></h3>
 
           <!-- C1: Usabilidade profissional -->
           <div class="likert-group">
@@ -87,13 +99,13 @@
               <div class="likert-option"><input type="radio" name="c1" id="c1_4" value="4"><label for="c1_4">4</label></div>
               <div class="likert-option"><input type="radio" name="c1" id="c1_5" value="5"><label for="c1_5">5</label></div>
             </div>
-            <div class="likert-anchors"><span>Descartaria</span><span>Usaria com minimas edicoes</span></div>
+            <div class="likert-anchors"><span>Descartaria</span><span>Usaria com m&iacute;nimas edi&ccedil;&otilde;es</span></div>
           </div>
 
           <!-- C2: Precisao tecnica -->
           <div class="likert-group">
-            <div class="likert-label">C2. Precisao tecnica</div>
-            <div class="likert-description">Informacoes corretas, citacoes verificaveis, calculos corretos</div>
+            <div class="likert-label">C2. Precis&atilde;o t&eacute;cnica</div>
+            <div class="likert-description">Informa&ccedil;&otilde;es corretas, cita&ccedil;&otilde;es verific&aacute;veis, c&aacute;lculos corretos</div>
             <div class="likert-scale" data-criterion="c2">
               <div class="likert-option"><input type="radio" name="c2" id="c2_1" value="1"><label for="c2_1">1</label></div>
               <div class="likert-option"><input type="radio" name="c2" id="c2_2" value="2"><label for="c2_2">2</label></div>
@@ -107,7 +119,7 @@
           <!-- C3: Estrutura -->
           <div class="likert-group">
             <div class="likert-label">C3. Estrutura adequada</div>
-            <div class="likert-description">Organizacao segue o padrao do genero textual</div>
+            <div class="likert-description">Organiza&ccedil;&atilde;o segue o padr&atilde;o do g&ecirc;nero textual</div>
             <div class="likert-scale" data-criterion="c3">
               <div class="likert-option"><input type="radio" name="c3" id="c3_1" value="1"><label for="c3_1">1</label></div>
               <div class="likert-option"><input type="radio" name="c3" id="c3_2" value="2"><label for="c3_2">2</label></div>
@@ -120,7 +132,7 @@
 
           <!-- C4: Profundidade -->
           <div class="likert-group">
-            <div class="likert-label">C4. Profundidade de analise</div>
+            <div class="likert-label">C4. Profundidade de an&aacute;lise</div>
             <div class="likert-description">Aborda as nuances relevantes do caso</div>
             <div class="likert-scale" data-criterion="c4">
               <div class="likert-option"><input type="radio" name="c4" id="c4_1" value="1"><label for="c4_1">1</label></div>
@@ -129,13 +141,13 @@
               <div class="likert-option"><input type="radio" name="c4" id="c4_4" value="4"><label for="c4_4">4</label></div>
               <div class="likert-option"><input type="radio" name="c4" id="c4_5" value="5"><label for="c4_5">5</label></div>
             </div>
-            <div class="likert-anchors"><span>Superficial</span><span>Analise profunda</span></div>
+            <div class="likert-anchors"><span>Superficial</span><span>An&aacute;lise profunda</span></div>
           </div>
 
           <!-- C5: Acionabilidade -->
           <div class="likert-group">
             <div class="likert-label">C5. Acionabilidade</div>
-            <div class="likert-description">Recomendacoes sao concretas e executaveis</div>
+            <div class="likert-description">Recomenda&ccedil;&otilde;es s&atilde;o concretas e execut&aacute;veis</div>
             <div class="likert-scale" data-criterion="c5">
               <div class="likert-option"><input type="radio" name="c5" id="c5_1" value="1"><label for="c5_1">1</label></div>
               <div class="likert-option"><input type="radio" name="c5" id="c5_2" value="2"><label for="c5_2">2</label></div>
@@ -143,13 +155,13 @@
               <div class="likert-option"><input type="radio" name="c5" id="c5_4" value="4"><label for="c5_4">4</label></div>
               <div class="likert-option"><input type="radio" name="c5" id="c5_5" value="5"><label for="c5_5">5</label></div>
             </div>
-            <div class="likert-anchors"><span>Genericas</span><span>Passo-a-passo claro</span></div>
+            <div class="likert-anchors"><span>Gen&eacute;ricas</span><span>Passo-a-passo claro</span></div>
           </div>
 
           <!-- C6: Ratio substancia/preenchimento -->
           <div class="likert-group">
-            <div class="likert-label">C6. Ratio substancia/preenchimento</div>
-            <div class="likert-description">Quanto do texto e informacao relevante vs padding/boilerplate</div>
+            <div class="likert-label">C6. Ratio subst&acirc;ncia/preenchimento</div>
+            <div class="likert-description">Quanto do texto &eacute; informa&ccedil;&atilde;o relevante vs padding/boilerplate</div>
             <div class="likert-scale" data-criterion="c6">
               <div class="likert-option"><input type="radio" name="c6" id="c6_1" value="1"><label for="c6_1">1</label></div>
               <div class="likert-option"><input type="radio" name="c6" id="c6_2" value="2"><label for="c6_2">2</label></div>
@@ -157,23 +169,23 @@
               <div class="likert-option"><input type="radio" name="c6" id="c6_4" value="4"><label for="c6_4">4</label></div>
               <div class="likert-option"><input type="radio" name="c6" id="c6_5" value="5"><label for="c6_5">5</label></div>
             </div>
-            <div class="likert-anchors"><span>Muito padding</span><span>Todo substancia</span></div>
+            <div class="likert-anchors"><span>Muito padding</span><span>Todo subst&acirc;ncia</span></div>
           </div>
 
           <div class="doc-nav">
             <button class="btn btn-secondary" id="btn-prev" onclick="prevDoc()">Voltar</button>
-            <button class="btn btn-primary" id="btn-next" onclick="nextDoc()">Proximo documento</button>
+            <button class="btn btn-primary" id="btn-next" onclick="nextDoc()">Pr&oacute;ximo documento</button>
           </div>
         </div>
       </div>
 
       <!-- Qualitative questions (step 4) -->
-      <div id="qualitative" class="hidden">
-        <div class="card">
-          <h2>Perguntas Finais</h2>
+      <div id="qualitative" class="hidden eval-transition">
+        <div class="card card-accent">
+          <h2 class="section-heading">Perguntas Finais</h2>
 
           <div class="form-group">
-            <label>Qual dos tres documentos voce escolheria para entregar a um cliente/stakeholder?</label>
+            <label>Qual dos tr&ecirc;s documentos voc&ecirc; escolheria para entregar a um cliente/stakeholder?</label>
             <select id="preferred-doc" required>
               <option value="">Selecione...</option>
               <option value="A">Documento A</option>
@@ -188,28 +200,34 @@
           </div>
 
           <div class="form-group">
-            <label>Algum dos documentos parece ter sido gerado por IA? Se sim, qual(is) e por que?</label>
+            <label>Algum dos documentos parece ter sido gerado por IA? Se sim, qual(is) e por qu&ecirc;?</label>
             <textarea id="ai-detection" placeholder="Indique quais documentos (A, B, C) parecem gerados por IA e o que lhe deu essa impressao..."></textarea>
           </div>
 
           <div class="form-group">
-            <label>Comentarios gerais (opcional)</label>
+            <label>Coment&aacute;rios gerais (opcional)</label>
             <textarea id="general-comments" placeholder="Qualquer observacao adicional sobre os documentos ou sobre esta avaliacao..."></textarea>
           </div>
 
           <div class="form-group">
-            <label>Quanto tempo aproximado voce levou nesta avaliacao? (minutos)</label>
+            <label>Quanto tempo aproximado voc&ecirc; levou nesta avalia&ccedil;&atilde;o? (minutos)</label>
             <input type="number" id="time-spent" min="1" max="180" placeholder="Ex: 35">
           </div>
 
           <button class="btn btn-primary btn-lg btn-block" id="btn-submit" onclick="submitAll()">
-            Enviar Avaliacao
+            Enviar Avalia&ccedil;&atilde;o
           </button>
           <div id="submit-error" class="alert alert-error hidden" style="margin-top:1rem"></div>
         </div>
       </div>
     </div>
   </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Artisanal Intelligence Program &middot; Renato Aparecido Gomes</p>
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -259,6 +277,24 @@
         } catch {
           BRIEFINGS[d] = `[Briefing ${d} ainda nao disponivel]`;
         }
+      }
+    }
+
+    // ============================================
+    // Floating progress & time estimate
+    // ============================================
+    function updateFloatingProgress() {
+      const pct = ((currentStep + 1) / 4) * 100;
+      document.getElementById('floating-progress-fill').style.width = pct + '%';
+
+      const stepsRemaining = 3 - currentStep;
+      const minutesPerStep = 10;
+      const remaining = Math.max(0, stepsRemaining * minutesPerStep);
+      const timeEl = document.getElementById('floating-time');
+      if (remaining <= 0) {
+        timeEl.textContent = 'Quase pronto!';
+      } else {
+        timeEl.textContent = `Tempo est.: ~${remaining} min`;
       }
     }
 
@@ -334,6 +370,7 @@
       currentStep = step;
       updateSteps();
       updateProgress();
+      updateFloatingProgress();
 
       if (step >= 0 && step <= 2) {
         // Show document evaluation
@@ -434,7 +471,7 @@
       }
 
       goToStep(currentStep + 1);
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function prevDoc() {
@@ -446,7 +483,7 @@
       }
 
       goToStep(currentStep - 1);
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     async function submitAll() {

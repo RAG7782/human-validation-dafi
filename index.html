@@ -5,29 +5,155 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Validacao Humana — Pesquisa DA/FI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <div class="container">
-      <h1>Pesquisa: Qualidade de Documentos Profissionais gerados por IA</h1>
-      <p>Artisanal Intelligence Program — Renato Aparecido Gomes (ORCID: 0009-0005-7380-9876)</p>
+  <!-- ============================================ -->
+  <!-- HERO SECTION                                 -->
+  <!-- ============================================ -->
+  <header class="hero-header">
+    <div class="hero-bg-pattern"></div>
+    <div class="container hero-container">
+      <div class="hero-monogram" aria-hidden="true">AIP</div>
+      <div class="hero-badge">Artisanal Intelligence Program</div>
+      <h1 class="hero-title">Qualidade de Documentos Profissionais Gerados por Intelig&ecirc;ncia Artificial</h1>
+      <p class="hero-subtitle">Estudo experimental com avalia&ccedil;&atilde;o cega por especialistas de dom&iacute;nio</p>
+
+      <!-- Researcher Card -->
+      <div class="researcher-card">
+        <div class="researcher-card-header">
+          <div class="researcher-avatar">RAG</div>
+          <div>
+            <h2 class="researcher-name">Renato Aparecido Gomes</h2>
+            <a href="https://orcid.org/0009-0005-7380-9876" target="_blank" rel="noopener" class="orcid-link">
+              <svg width="16" height="16" viewBox="0 0 256 256" class="orcid-icon">
+                <path d="M256 128c0 70.7-57.3 128-128 128S0 198.7 0 128 57.3 0 128 0s128 57.3 128 128z" fill="#A6CE39"/>
+                <path d="M86.3 186.2H70.9V79.1h15.4v107.1zm22.5-107.1h41.4c39.2 0 57.6 28.7 57.6 53.6 0 25.1-18.2 53.6-57.6 53.6h-41.4V79.1zm15.4 93.3h24.5c34.9 0 42.9-26.5 42.9-39.7 0-21.5-13.7-39.7-43.7-39.7h-23.7v79.4zM88.7 58.3c0 5.5-4.5 10.1-10.1 10.1-5.6 0-10.1-4.6-10.1-10.1 0-5.6 4.5-10.1 10.1-10.1 5.6 0 10.1 4.6 10.1 10.1z" fill="#fff"/>
+              </svg>
+              ORCID: 0009-0005-7380-9876
+            </a>
+          </div>
+        </div>
+        <div class="researcher-details">
+          <div class="researcher-detail-item">
+            <span class="detail-label">Qualifica&ccedil;&atilde;o</span>
+            <span>Advogado (OAB) &mdash; 20+ anos em direito empresarial e tribut&aacute;rio</span>
+          </div>
+          <div class="researcher-detail-item">
+            <span class="detail-label">Forma&ccedil;&atilde;o</span>
+            <span>MBA em Intelig&ecirc;ncia Artificial Aplicada (FMA/Pareto)</span>
+          </div>
+          <div class="researcher-detail-item">
+            <span class="detail-label">Afilia&ccedil;&otilde;es</span>
+            <span>Embaixador TESS Creative Partners &middot; Presidente do Instituto Luiz Gama</span>
+          </div>
+          <div class="researcher-detail-item">
+            <span class="detail-label">Programa</span>
+            <span>Artisanal Intelligence Program (Programa Intelig&ecirc;ncia Artesanal)</span>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
   <div class="container">
-    <!-- Intro -->
-    <div class="card">
-      <h2>Sobre esta pesquisa</h2>
-      <p>Estamos investigando como diferentes abordagens de estruturacao influenciam a qualidade de documentos profissionais gerados por inteligencia artificial.</p>
-      <p style="margin-top:0.75rem">Voce recebera <strong>3 documentos anonimizados</strong> do seu dominio de atuacao e devera avalia-los em 6 criterios. O tempo estimado e de <strong>30 a 45 minutos</strong>.</p>
-      <p style="margin-top:0.75rem">Sua participacao sera creditada nos agradecimentos da publicacao academica resultante.</p>
-    </div>
+    <!-- ============================================ -->
+    <!-- ABOUT THE STUDY                              -->
+    <!-- ============================================ -->
+    <section class="card card-accent fade-in-section">
+      <h2 class="section-heading">Sobre esta pesquisa</h2>
+      <p>Esta pesquisa investiga como diferentes abordagens de estrutura&ccedil;&atilde;o influenciam a qualidade de documentos profissionais gerados por IA. Voc&ecirc; receber&aacute; <strong>3 documentos anonimizados</strong> do seu dom&iacute;nio de atua&ccedil;&atilde;o e dever&aacute; avali&aacute;-los em 6 crit&eacute;rios.</p>
 
-    <!-- Registration Form -->
-    <div class="card" id="register-card">
-      <h2>Cadastro do Avaliador</h2>
+      <div class="criteria-grid">
+        <div class="criteria-item"><span class="criteria-number">C1</span> Usabilidade profissional</div>
+        <div class="criteria-item"><span class="criteria-number">C2</span> Precis&atilde;o t&eacute;cnica</div>
+        <div class="criteria-item"><span class="criteria-number">C3</span> Estrutura adequada</div>
+        <div class="criteria-item"><span class="criteria-number">C4</span> Profundidade de an&aacute;lise</div>
+        <div class="criteria-item"><span class="criteria-number">C5</span> Acionabilidade</div>
+        <div class="criteria-item"><span class="criteria-number">C6</span> Ratio subst&acirc;ncia/preenchimento</div>
+      </div>
+
+      <div class="study-meta">
+        <div class="study-meta-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Tempo estimado: <strong>30&ndash;45 minutos</strong></span>
+        </div>
+        <div class="study-meta-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <span>Compensa&ccedil;&atilde;o: <strong>Cr&eacute;dito nos agradecimentos da publica&ccedil;&atilde;o acad&ecirc;mica</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- METHODOLOGY (collapsible)                    -->
+    <!-- ============================================ -->
+    <details class="card card-accent methodology-details fade-in-section">
+      <summary class="methodology-summary">
+        <h2 class="section-heading section-heading-inline">Metodologia</h2>
+        <span class="methodology-toggle-hint">Ver detalhes</span>
+      </summary>
+      <div class="methodology-content">
+        <div class="section-divider"></div>
+        <p>Esta pesquisa utiliza o m&eacute;todo de <strong>avalia&ccedil;&atilde;o cega</strong> (<em>single-blind evaluation</em>), padr&atilde;o em estudos experimentais:</p>
+        <ul class="methodology-list">
+          <li>3 documentos gerados por IA com <strong>diferentes abordagens de estrutura&ccedil;&atilde;o</strong> (anonimizados)</li>
+          <li>O avaliador <strong>n&atilde;o sabe</strong> qual abordagem gerou qual documento</li>
+          <li>Atribui&ccedil;&atilde;o aleat&oacute;ria dos r&oacute;tulos (A, B, C) para cada avaliador</li>
+          <li>6 crit&eacute;rios em escala Likert (1&ndash;5) por documento</li>
+          <li>Perguntas qualitativas ao final &mdash; prefer&ecirc;ncia, detec&ccedil;&atilde;o de IA, coment&aacute;rios</li>
+        </ul>
+      </div>
+    </details>
+
+    <!-- ============================================ -->
+    <!-- LGPD COMPLIANCE                              -->
+    <!-- ============================================ -->
+    <section class="card card-accent lgpd-section fade-in-section">
+      <h2 class="section-heading">Aviso de Privacidade e Prote&ccedil;&atilde;o de Dados (LGPD)</h2>
+
+      <div class="lgpd-grid">
+        <div class="lgpd-item">
+          <span class="lgpd-label">Controlador</span>
+          <span>Renato Aparecido Gomes (CPF omitido por seguran&ccedil;a)</span>
+        </div>
+        <div class="lgpd-item">
+          <span class="lgpd-label">Dados coletados</span>
+          <span>Nome, email, qualifica&ccedil;&atilde;o profissional, anos de experi&ecirc;ncia, respostas da avalia&ccedil;&atilde;o</span>
+        </div>
+        <div class="lgpd-item">
+          <span class="lgpd-label">Finalidade</span>
+          <span>Exclusivamente pesquisa acad&ecirc;mica</span>
+        </div>
+        <div class="lgpd-item">
+          <span class="lgpd-label">Base legal</span>
+          <span>Consentimento livre, informado e espec&iacute;fico (Art. 7, I, LGPD)</span>
+        </div>
+        <div class="lgpd-item">
+          <span class="lgpd-label">Armazenamento</span>
+          <span>Supabase (servidores protegidos); dados anonimizados na publica&ccedil;&atilde;o</span>
+        </div>
+        <div class="lgpd-item">
+          <span class="lgpd-label">Direitos do titular</span>
+          <span>Acesso, corre&ccedil;&atilde;o, exclus&atilde;o, portabilidade (Art. 18, LGPD)</span>
+        </div>
+        <div class="lgpd-item">
+          <span class="lgpd-label">Contato</span>
+          <span><a href="mailto:renato@renatogomes.adv.br">renato@renatogomes.adv.br</a></span>
+        </div>
+        <div class="lgpd-item">
+          <span class="lgpd-label">Reten&ccedil;&atilde;o</span>
+          <span>Dados mantidos por 5 anos ap&oacute;s publica&ccedil;&atilde;o, conforme boas pr&aacute;ticas de pesquisa</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- REGISTRATION FORM                            -->
+    <!-- ============================================ -->
+    <div class="card card-accent fade-in-section" id="register-card">
+      <h2 class="section-heading">Cadastro do Avaliador</h2>
       <form id="register-form">
         <div class="form-group">
           <label for="name">Nome completo</label>
@@ -37,36 +163,41 @@
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" required placeholder="seu@email.com">
-          <div class="hint">Usado apenas para controle da pesquisa. Nao sera compartilhado.</div>
+          <div class="hint">Usado apenas para controle da pesquisa. N&atilde;o ser&aacute; compartilhado.</div>
         </div>
 
         <div class="form-group">
-          <label for="domain">Area de atuacao</label>
+          <label for="domain">&Aacute;rea de atua&ccedil;&atilde;o</label>
           <select id="domain" required>
-            <option value="">Selecione seu dominio...</option>
-            <option value="juridico">Juridico (Direito Empresarial / LGPD)</option>
-            <option value="tributario">Tributario (Direito Tributario / Contabilidade)</option>
-            <option value="tecnico">Tecnico (Engenharia de Software)</option>
+            <option value="">Selecione seu dom&iacute;nio...</option>
+            <option value="juridico">Jur&iacute;dico (Direito Empresarial / LGPD)</option>
+            <option value="tributario">Tribut&aacute;rio (Direito Tribut&aacute;rio / Contabilidade)</option>
+            <option value="tecnico">T&eacute;cnico (Engenharia de Software)</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="qualification">Qualificacao profissional</label>
+          <label for="qualification">Qualifica&ccedil;&atilde;o profissional</label>
           <input type="text" id="qualification" required placeholder="Ex: OAB/SP 123456, CRC/SP 456789, CREA/SP 123456">
           <div class="hint">Registro profissional ou credencial equivalente.</div>
         </div>
 
         <div class="form-group">
-          <label for="years">Anos de experiencia na area</label>
+          <label for="years">Anos de experi&ecirc;ncia na &aacute;rea</label>
           <input type="number" id="years" required min="1" max="50" placeholder="Ex: 10">
         </div>
 
-        <div class="alert alert-info">
-          Ao se cadastrar, voce confirma que e profissional atuante na area selecionada e que concorda em avaliar os documentos de forma imparcial, sem saber como foram produzidos.
+        <!-- LGPD Consent Checkbox -->
+        <div class="form-group lgpd-consent">
+          <label class="checkbox-label">
+            <input type="checkbox" id="lgpd-consent" required>
+            <span class="checkbox-custom"></span>
+            <span class="checkbox-text">Li e concordo com os termos de uso dos dados para fins de pesquisa acad&ecirc;mica, conforme descrito acima no Aviso de Privacidade e Prote&ccedil;&atilde;o de Dados (LGPD).</span>
+          </label>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit-btn">
-          Cadastrar e Iniciar Avaliacao
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit-btn" disabled>
+          Cadastrar e Iniciar Avalia&ccedil;&atilde;o
         </button>
 
         <div id="error-msg" class="alert alert-error hidden" style="margin-top:1rem"></div>
@@ -75,34 +206,69 @@
 
     <!-- Already registered -->
     <div class="card hidden" id="return-card">
-      <h2>Ja esta cadastrado?</h2>
-      <p>Se voce ja se cadastrou e precisa retomar a avaliacao, insira seu email:</p>
+      <h2>J&aacute; est&aacute; cadastrado?</h2>
+      <p>Se voc&ecirc; j&aacute; se cadastrou e precisa retomar a avalia&ccedil;&atilde;o, insira seu email:</p>
       <form id="return-form" style="margin-top:1rem">
         <div class="form-group">
           <label for="return-email">Email cadastrado</label>
           <input type="email" id="return-email" required placeholder="seu@email.com">
         </div>
-        <button type="submit" class="btn btn-secondary">Retomar Avaliacao</button>
+        <button type="submit" class="btn btn-secondary">Retomar Avalia&ccedil;&atilde;o</button>
         <div id="return-error" class="alert alert-error hidden" style="margin-top:1rem"></div>
       </form>
     </div>
 
-    <p style="text-align:center; margin-top:1rem">
-      <a href="#" id="toggle-return" style="font-size:0.85rem; color:var(--text-light)">
-        Ja se cadastrou? Clique aqui para retomar.
+    <p style="text-align:center; margin-top:1rem; margin-bottom: var(--space-8);">
+      <a href="#" id="toggle-return" style="font-size:0.85rem; color:var(--text-muted)">
+        J&aacute; se cadastrou? Clique aqui para retomar.
       </a>
     </p>
   </div>
 
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; 2026 Artisanal Intelligence Program &middot; Renato Aparecido Gomes</p>
+      <p>Contato: <a href="mailto:renato@renatogomes.adv.br">renato@renatogomes.adv.br</a></p>
+    </div>
+  </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
   <script>
+    // ============================================
+    // LGPD consent checkbox wiring
+    // ============================================
+    const lgpdCheckbox = document.getElementById('lgpd-consent');
+    const submitBtn = document.getElementById('submit-btn');
+
+    lgpdCheckbox.addEventListener('change', () => {
+      submitBtn.disabled = !lgpdCheckbox.checked;
+    });
+
+    // ============================================
+    // Scroll fade-in animations
+    // ============================================
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('fade-in-visible');
+          fadeObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in-section').forEach(el => {
+      fadeObserver.observe(el);
+    });
+
+    // ============================================
+    // Existing form logic (preserved)
+    // ============================================
     const form = document.getElementById('register-form');
     const returnForm = document.getElementById('return-form');
     const toggleReturn = document.getElementById('toggle-return');
     const errorMsg = document.getElementById('error-msg');
     const returnError = document.getElementById('return-error');
-    const submitBtn = document.getElementById('submit-btn');
 
     toggleReturn.addEventListener('click', (e) => {
       e.preventDefault();
