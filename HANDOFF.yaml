@@ -1,0 +1,164 @@
+# ============================================================
+# HANDOFF — Human Validation Platform DA/FI
+# Sessão: 2026-04-04
+# Para: próxima sessão Claude Code
+# ============================================================
+
+session:
+  date: "2026-04-04"
+  duration: "~4 horas"
+  model: "Claude Opus 4.6 (1M context)"
+  status: "PLATAFORMA CONSTRUÍDA — aguardando teste de fluxo e deploy"
+
+# ============================================================
+# O QUE FOI FEITO
+# ============================================================
+completed:
+  knowledge_base:
+    - "Leitura e teste do KNOWLEDGE.md (7 perguntas do PLAN.md)"
+    - "Investigação de 10 questões abertas emergentes"
+    - "Roadmap de 6 blocos para validação humana"
+
+  infrastructure:
+    - "Site estático: index.html, evaluate.html, thanks.html, admin.html"
+    - "CSS redesenhado com Atomic Design (Brad Frost methodology)"
+    - "Supabase project: Artesanato Digital-Framework Injection (ref: tlrmcmmuqxyqsskjqrri)"
+    - "4 tabelas: evaluators, randomizations, evaluations, qualitative_responses"
+    - "RLS configurado, anon key funcional"
+    - "LGPD compliance: aviso de privacidade + termo de consentimento + checkbox obrigatório"
+    - "Acentuação PT-BR corrigida, textos justificados, títulos em negrito"
+    - "GitHub: RAG7782/human-validation-dafi (público, 4 commits)"
+
+  blueprints:
+    juridico:
+      file: "data/blueprints/juridico_blueprint.md"
+      lines: 258
+      lapidation_passes: 3
+      improvements: 31
+      key_research:
+        - "Res. ANPD 19/2024 (não 18) — transferência internacional, CPCs expiradas 23/08/2025"
+        - "Res. ANPD 18/2024 — DPO"
+        - "CREMESP 385/2024 — prontuário eletrônico SP"
+        - "Decreto 12.560/2025 — RNDS"
+        - "ECA Digital (Lei 15.211/2025) — em vigor desde 17/03/2026"
+        - "Art. 14 LGPD + Enunciado ANPD 1/2023"
+        - "Caso RaiaDrogasil 2025, caso Telekall 2023"
+
+    tributario:
+      file: "data/blueprints/tributario_blueprint.md"
+      lines: 472
+      lapidation_passes: 2
+      improvements: 22
+      definitivo_integration: "7 Mecanismos Transversais do Blueprint Definitivo v4"
+      key_research:
+        - "LC 214/2025 (IBS/CBS — 544 artigos)"
+        - "LC 227/2026 (federalismo fiscal)"
+        - "Alerta SaaS: carga efetiva 5-9% → 20%+ na reforma"
+        - "Modulação efeitos STF março/2021"
+        - "CPRB, IOF, PIS/COFINS receita financeira, ágio"
+
+    tecnico:
+      file: "data/blueprints/tecnico_blueprint.md"
+      lines: 348
+      lapidation_passes: 3
+      improvements: 24
+      key_additions:
+        - "SLO baseline obrigatório antes de qualquer mudança"
+        - "CDC em vez de dual-write (anti-pattern)"
+        - "Feature flags por extração"
+        - "Inter-phase gates com retrospectiva"
+        - "Abandon criteria (2x duração/custo)"
+        - "Precedentes InfoQ/Medium (migrações falhadas)"
+
+  outputs:
+    model: "claude-sonnet-4-6"
+    temperature: 0.7
+    max_tokens: 8192
+    count: 9
+    conditions: ["BL (baseline)", "AD (auto-DA)", "HD (human-DA)"]
+    domains: ["jurídico", "tributário", "técnico"]
+    location: "data/outputs/"
+
+  findings:
+    - label: "Anti-hallucination guardrail"
+      description: "BL fabricou norma inexistente (CFM 2.299/2021). HD com blueprint lapidado não fabricou. Blueprint funciona como guardrail."
+      domain: "jurídico"
+      evidence_level: "qualitativo, N=1"
+
+    - label: "Method transfer, not information transfer"
+      description: "HD produz outputs estruturalmente diferentes — não apenas melhores. Instrumentos de decisão calibrados que o modelo não gera espontaneamente."
+      domain: "todos"
+      evidence_level: "qualitativo, 3 domínios"
+
+    - label: "Token Allocation Effect"
+      description: "Blueprints densos consomem tokens na fundamentação, requerendo min 8192 max_tokens. Com 4096, HD truncou na análise."
+      domain: "jurídico"
+      evidence_level: "observação técnica"
+
+    - label: "Quantitative differences"
+      description: "HD técnico: 23 termos DDD (BL=0), 10 rollback (BL=1), feature flags (BL=0). HD tributário: IC 0.71, sinalização tese, contraditório fiscal."
+      domain: "tributário + técnico"
+      evidence_level: "contagem automatizada"
+
+  persistence:
+    claude_memory: "5 arquivos (project, feedback, reference, session_summary)"
+    imi: "25 episódicas + 14 semânticas = 39 memórias, 4 padrões consolidados"
+    git: "4 commits, pushed to RAG7782/human-validation-dafi"
+    notebooklm: "17 sources, ID e921c3df-6b71-4307-bacb-a2165fd4fd98"
+    knowledge_md: "§9 DA atualizado com Human Validation Platform, pushed to framework-injection"
+
+# ============================================================
+# O QUE FALTA FAZER (próxima sessão)
+# ============================================================
+next_session:
+  priority_1_test:
+    - "Testar fluxo completo: cadastro → briefing → avaliação 3 docs → qualitativo → thanks"
+    - "Testar randomização (cadastrar 2 avaliadores, verificar ordem diferente)"
+    - "Testar admin dashboard (admin.html, senha: aip2026)"
+    - "Testar export CSV/JSON"
+    - "Verificar se dados chegam ao Supabase corretamente"
+
+  priority_2_deploy:
+    - "Deploy no Vercel ou Cloudflare Pages"
+    - "Configurar domínio customizado (se disponível)"
+    - "Testar HTTPS e performance"
+
+  priority_3_recruit:
+    - "Preparar mensagem de recrutamento (template no PROTOCOL-human-validation.md §6.2)"
+    - "Recrutar via: OAB Santo Amaro, MBA FMA/Pareto, TESS Creative Partners, Instituto Luiz Gama, LinkedIn"
+    - "Mínimo: 9 avaliadores (3 por domínio)"
+    - "Ideal: 15 avaliadores (5 por domínio)"
+
+  priority_4_analysis:
+    - "Após coleta: Friedman test, Wilcoxon pairwise, Kendall's W"
+    - "Inter-rater reliability: Krippendorff's alpha"
+    - "Análise qualitativa das preferências"
+    - "Integração no paper DA"
+
+  priority_5_next_research:
+    - "Experimento SD: embedar termos alta/baixa densidade via STEER"
+    - "Template FI via Gagné (Reading Debt CRITICAL)"
+    - "Ablação Artisan's Paradox (auto-blueprint iterativo)"
+    - "Benchmark longitudinal FI por release de modelo"
+
+# ============================================================
+# CONTEXTO PARA O PRÓXIMO AGENTE
+# ============================================================
+context:
+  working_directory: "/Users/renatoaparegomes/experimentos/human-validation"
+  supabase_ref: "tlrmcmmuqxyqsskjqrri"
+  supabase_url: "https://tlrmcmmuqxyqsskjqrri.supabase.co"
+  github_repo: "RAG7782/human-validation-dafi"
+  local_server: "python3 -m http.server 8888"
+  admin_password: "aip2026"
+  protocol_file: "/Users/renatoaparegomes/experimentos/da-experiments/PROTOCOL-human-validation.md"
+  blueprint_definitivo: "/Users/renatoaparegomes/experimentos/da-experiments/benchmark-prompts/BLUEPRINT-PARECER-TRIBUTARIO-DEFINITIVO.md"
+  knowledge_md: "/Users/renatoaparegomes/experimentos/kb/KNOWLEDGE.md"
+
+  key_memories_imi:
+    - "fc970b34cbb4 — Human Validation Platform findings"
+    - "1f408a947321 — Supabase infrastructure"
+    - "a4a882df52cd — Blueprint lapidation results"
+    - "9fb6072c7940 — Session summary and handoff"
+
+  start_command: "imi_navigate 'human validation platform DA FI' para recuperar contexto completo"
