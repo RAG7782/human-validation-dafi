@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Pesquisa DA/FI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Painel do Pesquisador</h1>
+      <p>Dados da validacao humana — DA/FI</p>
+    </div>
+  </header>
+
+  <div class="container-wide">
+    <!-- Auth -->
+    <div id="auth-card" class="card">
+      <h2>Acesso</h2>
+      <div class="form-group">
+        <label for="admin-pass">Senha do pesquisador</label>
+        <input type="password" id="admin-pass" placeholder="Senha...">
+      </div>
+      <button class="btn btn-primary" onclick="authenticate()">Entrar</button>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden">
+      <!-- Stats -->
+      <div class="stats-grid" id="stats"></div>
+
+      <!-- Scores by condition -->
+      <div class="card">
+        <h2>Scores por Condicao (desmapeado)</h2>
+        <div class="alert alert-info">
+          Scores reais: BL = Baseline (sem framework/blueprint), AD = Auto-DA (blueprint auto-gerado), HD = Human-DA (blueprint human-crafted).
+        </div>
+        <table class="admin-table" id="scores-table">
+          <thead>
+            <tr>
+              <th>Condicao</th>
+              <th>C1 Usab.</th>
+              <th>C2 Prec.</th>
+              <th>C3 Estr.</th>
+              <th>C4 Prof.</th>
+              <th>C5 Acion.</th>
+              <th>C6 Subst.</th>
+              <th>Total</th>
+              <th>N</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Preference -->
+      <div class="card">
+        <h2>Preferencia ("qual entregaria ao cliente?")</h2>
+        <table class="admin-table" id="pref-table">
+          <thead>
+            <tr><th>Condicao real</th><th>Vezes escolhido</th><th>%</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Evaluators list -->
+      <div class="card">
+        <h2>Avaliadores</h2>
+        <table class="admin-table" id="evaluators-table">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Dominio</th>
+              <th>Qualif.</th>
+              <th>Anos</th>
+              <th>Docs avaliados</th>
+              <th>Qualitativo</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <!-- Qualitative responses -->
+      <div class="card">
+        <h2>Respostas Qualitativas</h2>
+        <div id="qualitative-list"></div>
+      </div>
+
+      <!-- Export -->
+      <div class="card">
+        <h2>Exportar Dados</h2>
+        <button class="btn btn-primary" onclick="exportCSV('evaluations')">Exportar Avaliacoes (CSV)</button>
+        <button class="btn btn-secondary" onclick="exportCSV('qualitative')" style="margin-left:0.5rem">Exportar Qualitativo (CSV)</button>
+        <button class="btn btn-secondary" onclick="exportJSON()" style="margin-left:0.5rem">Exportar Tudo (JSON)</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script>
+    const ADMIN_PASS = 'aip2026'; // Simple password — change in production
+    let allData = [];
+
+    function authenticate() {
+      const pass = document.getElementById('admin-pass').value;
+      if (pass === ADMIN_PASS) {
+        document.getElementById('auth-card').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        loadDashboard();
+      } else {
+        alert('Senha incorreta');
+      }
+    }
+
+    // Allow Enter key
+    document.getElementById('admin-pass').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') authenticate();
+    });
+
+    async function loadDashboard() {
+      try {
+        allData = await db.getAllEvaluators();
+        renderStats();
+        renderScores();
+        renderPreferences();
+        renderEvaluators();
+        renderQualitative();
+      } catch (err) {
+        alert('Erro ao carregar dados: ' + err.message);
+      }
+    }
+
+    function renderStats() {
+      const total = allData.length;
+      const withEvals = allData.filter(e => e.evaluations?.length === 3).length;
+      const withQual = allData.filter(e => e.qualitative_responses?.length > 0).length;
+      const domains = {};
+      allData.forEach(e => { domains[e.domain] = (domains[e.domain] || 0) + 1; });
+
+      document.getElementById('stats').innerHTML = `
+        <div class="stat-card"><div class="stat-value">${total}</div><div class="stat-label">Avaliadores cadastrados</div></div>
+        <div class="stat-card"><div class="stat-value">${withEvals}</div><div class="stat-label">Avaliacoes completas</div></div>
+        <div class="stat-card"><div class="stat-value">${withQual}</div><div class="stat-label">Qualitativo preenchido</div></div>
+        <div class="stat-card"><div class="stat-value">${domains.juridico || 0}/${domains.tributario || 0}/${domains.tecnico || 0}</div><div class="stat-label">Jur / Trib / Tec</div></div>
+      `;
+    }
+
+    function renderScores() {
+      // Collect all evaluations grouped by real condition
+      const byCondition = { bl: [], ad: [], hd: [] };
+
+      allData.forEach(ev => {
+        (ev.evaluations || []).forEach(e => {
+          if (byCondition[e.condition]) {
+            byCondition[e.condition].push(e);
+          }
+        });
+      });
+
+      const tbody = document.querySelector('#scores-table tbody');
+      tbody.innerHTML = '';
+
+      ['bl', 'ad', 'hd'].forEach(cond => {
+        const evals = byCondition[cond];
+        const n = evals.length;
+        if (n === 0) {
+          tbody.innerHTML += `<tr><td>${cond.toUpperCase()}</td><td colspan="7">Sem dados</td><td>0</td></tr>`;
+          return;
+        }
+
+        const avg = (field) => (evals.reduce((s, e) => s + (e[field] || 0), 0) / n).toFixed(1);
+        const c1 = avg('c1_usability');
+        const c2 = avg('c2_precision');
+        const c3 = avg('c3_structure');
+        const c4 = avg('c4_depth');
+        const c5 = avg('c5_actionability');
+        const c6 = avg('c6_substance_ratio');
+        const total = (parseFloat(c1) + parseFloat(c2) + parseFloat(c3) + parseFloat(c4) + parseFloat(c5) + parseFloat(c6)).toFixed(1);
+
+        tbody.innerHTML += `
+          <tr>
+            <td><strong>${cond.toUpperCase()}</strong></td>
+            <td>${c1}</td><td>${c2}</td><td>${c3}</td><td>${c4}</td><td>${c5}</td><td>${c6}</td>
+            <td><strong>${total}</strong></td>
+            <td>${n}</td>
+          </tr>
+        `;
+      });
+    }
+
+    function renderPreferences() {
+      // Map preferred doc label back to condition
+      const condCounts = { bl: 0, ad: 0, hd: 0 };
+      let total = 0;
+
+      allData.forEach(ev => {
+        const qual = ev.qualitative_responses?.[0];
+        const rand = ev.randomizations?.[0]?.doc_order;
+        if (!qual || !rand) return;
+
+        const labelIndex = ['A', 'B', 'C'].indexOf(qual.preferred_doc);
+        if (labelIndex >= 0) {
+          const realCond = rand[labelIndex];
+          condCounts[realCond]++;
+          total++;
+        }
+      });
+
+      const tbody = document.querySelector('#pref-table tbody');
+      tbody.innerHTML = '';
+      ['bl', 'ad', 'hd'].forEach(cond => {
+        const pct = total > 0 ? ((condCounts[cond] / total) * 100).toFixed(0) : 0;
+        tbody.innerHTML += `
+          <tr>
+            <td><strong>${cond.toUpperCase()}</strong></td>
+            <td>${condCounts[cond]}</td>
+            <td>${pct}%</td>
+          </tr>
+        `;
+      });
+    }
+
+    function renderEvaluators() {
+      const tbody = document.querySelector('#evaluators-table tbody');
+      tbody.innerHTML = '';
+      allData.forEach(ev => {
+        const nEvals = ev.evaluations?.length || 0;
+        const hasQual = ev.qualitative_responses?.length > 0;
+        tbody.innerHTML += `
+          <tr>
+            <td>${ev.name}</td>
+            <td><span class="badge badge-primary">${ev.domain}</span></td>
+            <td>${ev.qualification}</td>
+            <td>${ev.years_experience}</td>
+            <td>${nEvals}/3 ${nEvals === 3 ? '<span class="badge badge-success">OK</span>' : ''}</td>
+            <td>${hasQual ? '<span class="badge badge-success">Sim</span>' : '<span class="badge badge-warning">Nao</span>'}</td>
+          </tr>
+        `;
+      });
+    }
+
+    function renderQualitative() {
+      const container = document.getElementById('qualitative-list');
+      container.innerHTML = '';
+
+      allData.forEach(ev => {
+        const qual = ev.qualitative_responses?.[0];
+        if (!qual) return;
+
+        const rand = ev.randomizations?.[0]?.doc_order;
+        const labelIndex = ['A', 'B', 'C'].indexOf(qual.preferred_doc);
+        const realCond = rand ? rand[labelIndex] : '?';
+
+        container.innerHTML += `
+          <div class="card" style="margin-bottom:1rem">
+            <h3>${ev.name} <span class="badge badge-primary">${ev.domain}</span></h3>
+            <p><strong>Preferido:</strong> Doc ${qual.preferred_doc} (= ${realCond.toUpperCase()})</p>
+            <p><strong>Razao:</strong> ${qual.preference_reason || '—'}</p>
+            <p><strong>Deteccao IA:</strong> ${qual.ai_detected_docs || '—'}</p>
+            <p><strong>Comentarios:</strong> ${qual.general_comments || '—'}</p>
+            <p style="font-size:0.8rem; color:var(--text-light)">Tempo: ${qual.time_spent_minutes || '?'} min</p>
+          </div>
+        `;
+      });
+
+      if (container.innerHTML === '') {
+        container.innerHTML = '<p style="color:var(--text-light)">Nenhuma resposta qualitativa ainda.</p>';
+      }
+    }
+
+    // ============================================
+    // Export
+    // ============================================
+    function exportCSV(type) {
+      let csv = '';
+
+      if (type === 'evaluations') {
+        csv = 'evaluator_name,domain,qualification,years,document_label,condition,c1_usability,c2_precision,c3_structure,c4_depth,c5_actionability,c6_substance_ratio,total\n';
+        allData.forEach(ev => {
+          (ev.evaluations || []).forEach(e => {
+            const total = (e.c1_usability||0)+(e.c2_precision||0)+(e.c3_structure||0)+(e.c4_depth||0)+(e.c5_actionability||0)+(e.c6_substance_ratio||0);
+            csv += `"${ev.name}","${ev.domain}","${ev.qualification}",${ev.years_experience},"${e.document_label}","${e.condition}",${e.c1_usability},${e.c2_precision},${e.c3_structure},${e.c4_depth},${e.c5_actionability},${e.c6_substance_ratio},${total}\n`;
+          });
+        });
+      } else {
+        csv = 'evaluator_name,domain,preferred_doc,preferred_condition,preference_reason,ai_detected_docs,general_comments,time_minutes\n';
+        allData.forEach(ev => {
+          const qual = ev.qualitative_responses?.[0];
+          if (!qual) return;
+          const rand = ev.randomizations?.[0]?.doc_order;
+          const li = ['A','B','C'].indexOf(qual.preferred_doc);
+          const rc = rand ? rand[li] : '?';
+          csv += `"${ev.name}","${ev.domain}","${qual.preferred_doc}","${rc}","${(qual.preference_reason||'').replace(/"/g,'""')}","${(qual.ai_detected_docs||'').replace(/"/g,'""')}","${(qual.general_comments||'').replace(/"/g,'""')}",${qual.time_spent_minutes||''}\n`;
+        });
+      }
+
+      downloadFile(csv, `${type}_export_${new Date().toISOString().slice(0,10)}.csv`, 'text/csv');
+    }
+
+    function exportJSON() {
+      const json = JSON.stringify(allData, null, 2);
+      downloadFile(json, `full_export_${new Date().toISOString().slice(0,10)}.json`, 'application/json');
+    }
+
+    function downloadFile(content, filename, mime) {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>

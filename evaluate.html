@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avaliacao — Pesquisa DA/FI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Avaliacao de Documentos</h1>
+      <p id="evaluator-info">Carregando...</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Loading -->
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p style="margin-top:1rem">Carregando seus documentos...</p>
+    </div>
+
+    <!-- Error -->
+    <div id="error-container" class="hidden">
+      <div class="alert alert-error" id="load-error"></div>
+      <a href="index.html" class="btn btn-secondary">Voltar ao cadastro</a>
+    </div>
+
+    <!-- Main evaluation area -->
+    <div id="eval-area" class="hidden">
+      <!-- Progress steps -->
+      <div class="steps" id="steps">
+        <div class="step" data-step="0">
+          <span class="step-number">1</span> Documento A
+        </div>
+        <div class="step" data-step="1">
+          <span class="step-number">2</span> Documento B
+        </div>
+        <div class="step" data-step="2">
+          <span class="step-number">3</span> Documento C
+        </div>
+        <div class="step" data-step="3">
+          <span class="step-number">4</span> Perguntas Finais
+        </div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="fill" id="progress-fill" style="width: 0%"></div>
+      </div>
+
+      <!-- Briefing (shown once at start) -->
+      <div id="briefing-card" class="card">
+        <h2>Contexto do Caso</h2>
+        <div class="alert alert-info">
+          Leia o briefing abaixo antes de avaliar os documentos. Todos os 3 documentos respondem a este mesmo caso.
+        </div>
+        <div id="briefing-content" class="doc-viewer"></div>
+        <button class="btn btn-primary btn-lg btn-block" onclick="startEvaluation()" style="margin-top:1rem">
+          Entendi o caso. Iniciar avaliacao.
+        </button>
+      </div>
+
+      <!-- Document evaluation (repeated for A, B, C) -->
+      <div id="doc-eval" class="hidden">
+        <div class="card">
+          <h2 id="doc-title">Documento A</h2>
+          <div class="alert alert-warning">
+            Leia o documento completo antes de avaliar. Use a barra de rolagem se necessario.
+          </div>
+          <div id="doc-content" class="doc-viewer"></div>
+        </div>
+
+        <div class="card">
+          <h3>Avaliacao — <span id="doc-eval-title">Documento A</span></h3>
+
+          <!-- C1: Usabilidade profissional -->
+          <div class="likert-group">
+            <div class="likert-label">C1. Usabilidade profissional</div>
+            <div class="likert-description">Eu usaria este documento como base para trabalho real?</div>
+            <div class="likert-scale" data-criterion="c1">
+              <div class="likert-option"><input type="radio" name="c1" id="c1_1" value="1"><label for="c1_1">1</label></div>
+              <div class="likert-option"><input type="radio" name="c1" id="c1_2" value="2"><label for="c1_2">2</label></div>
+              <div class="likert-option"><input type="radio" name="c1" id="c1_3" value="3"><label for="c1_3">3</label></div>
+              <div class="likert-option"><input type="radio" name="c1" id="c1_4" value="4"><label for="c1_4">4</label></div>
+              <div class="likert-option"><input type="radio" name="c1" id="c1_5" value="5"><label for="c1_5">5</label></div>
+            </div>
+            <div class="likert-anchors"><span>Descartaria</span><span>Usaria com minimas edicoes</span></div>
+          </div>
+
+          <!-- C2: Precisao tecnica -->
+          <div class="likert-group">
+            <div class="likert-label">C2. Precisao tecnica</div>
+            <div class="likert-description">Informacoes corretas, citacoes verificaveis, calculos corretos</div>
+            <div class="likert-scale" data-criterion="c2">
+              <div class="likert-option"><input type="radio" name="c2" id="c2_1" value="1"><label for="c2_1">1</label></div>
+              <div class="likert-option"><input type="radio" name="c2" id="c2_2" value="2"><label for="c2_2">2</label></div>
+              <div class="likert-option"><input type="radio" name="c2" id="c2_3" value="3"><label for="c2_3">3</label></div>
+              <div class="likert-option"><input type="radio" name="c2" id="c2_4" value="4"><label for="c2_4">4</label></div>
+              <div class="likert-option"><input type="radio" name="c2" id="c2_5" value="5"><label for="c2_5">5</label></div>
+            </div>
+            <div class="likert-anchors"><span>Erros graves</span><span>Preciso</span></div>
+          </div>
+
+          <!-- C3: Estrutura -->
+          <div class="likert-group">
+            <div class="likert-label">C3. Estrutura adequada</div>
+            <div class="likert-description">Organizacao segue o padrao do genero textual</div>
+            <div class="likert-scale" data-criterion="c3">
+              <div class="likert-option"><input type="radio" name="c3" id="c3_1" value="1"><label for="c3_1">1</label></div>
+              <div class="likert-option"><input type="radio" name="c3" id="c3_2" value="2"><label for="c3_2">2</label></div>
+              <div class="likert-option"><input type="radio" name="c3" id="c3_3" value="3"><label for="c3_3">3</label></div>
+              <div class="likert-option"><input type="radio" name="c3" id="c3_4" value="4"><label for="c3_4">4</label></div>
+              <div class="likert-option"><input type="radio" name="c3" id="c3_5" value="5"><label for="c3_5">5</label></div>
+            </div>
+            <div class="likert-anchors"><span>Inadequada</span><span>Exemplar</span></div>
+          </div>
+
+          <!-- C4: Profundidade -->
+          <div class="likert-group">
+            <div class="likert-label">C4. Profundidade de analise</div>
+            <div class="likert-description">Aborda as nuances relevantes do caso</div>
+            <div class="likert-scale" data-criterion="c4">
+              <div class="likert-option"><input type="radio" name="c4" id="c4_1" value="1"><label for="c4_1">1</label></div>
+              <div class="likert-option"><input type="radio" name="c4" id="c4_2" value="2"><label for="c4_2">2</label></div>
+              <div class="likert-option"><input type="radio" name="c4" id="c4_3" value="3"><label for="c4_3">3</label></div>
+              <div class="likert-option"><input type="radio" name="c4" id="c4_4" value="4"><label for="c4_4">4</label></div>
+              <div class="likert-option"><input type="radio" name="c4" id="c4_5" value="5"><label for="c4_5">5</label></div>
+            </div>
+            <div class="likert-anchors"><span>Superficial</span><span>Analise profunda</span></div>
+          </div>
+
+          <!-- C5: Acionabilidade -->
+          <div class="likert-group">
+            <div class="likert-label">C5. Acionabilidade</div>
+            <div class="likert-description">Recomendacoes sao concretas e executaveis</div>
+            <div class="likert-scale" data-criterion="c5">
+              <div class="likert-option"><input type="radio" name="c5" id="c5_1" value="1"><label for="c5_1">1</label></div>
+              <div class="likert-option"><input type="radio" name="c5" id="c5_2" value="2"><label for="c5_2">2</label></div>
+              <div class="likert-option"><input type="radio" name="c5" id="c5_3" value="3"><label for="c5_3">3</label></div>
+              <div class="likert-option"><input type="radio" name="c5" id="c5_4" value="4"><label for="c5_4">4</label></div>
+              <div class="likert-option"><input type="radio" name="c5" id="c5_5" value="5"><label for="c5_5">5</label></div>
+            </div>
+            <div class="likert-anchors"><span>Genericas</span><span>Passo-a-passo claro</span></div>
+          </div>
+
+          <!-- C6: Ratio substancia/preenchimento -->
+          <div class="likert-group">
+            <div class="likert-label">C6. Ratio substancia/preenchimento</div>
+            <div class="likert-description">Quanto do texto e informacao relevante vs padding/boilerplate</div>
+            <div class="likert-scale" data-criterion="c6">
+              <div class="likert-option"><input type="radio" name="c6" id="c6_1" value="1"><label for="c6_1">1</label></div>
+              <div class="likert-option"><input type="radio" name="c6" id="c6_2" value="2"><label for="c6_2">2</label></div>
+              <div class="likert-option"><input type="radio" name="c6" id="c6_3" value="3"><label for="c6_3">3</label></div>
+              <div class="likert-option"><input type="radio" name="c6" id="c6_4" value="4"><label for="c6_4">4</label></div>
+              <div class="likert-option"><input type="radio" name="c6" id="c6_5" value="5"><label for="c6_5">5</label></div>
+            </div>
+            <div class="likert-anchors"><span>Muito padding</span><span>Todo substancia</span></div>
+          </div>
+
+          <div class="doc-nav">
+            <button class="btn btn-secondary" id="btn-prev" onclick="prevDoc()">Voltar</button>
+            <button class="btn btn-primary" id="btn-next" onclick="nextDoc()">Proximo documento</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Qualitative questions (step 4) -->
+      <div id="qualitative" class="hidden">
+        <div class="card">
+          <h2>Perguntas Finais</h2>
+
+          <div class="form-group">
+            <label>Qual dos tres documentos voce escolheria para entregar a um cliente/stakeholder?</label>
+            <select id="preferred-doc" required>
+              <option value="">Selecione...</option>
+              <option value="A">Documento A</option>
+              <option value="B">Documento B</option>
+              <option value="C">Documento C</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Por que escolheu esse documento?</label>
+            <textarea id="preference-reason" placeholder="Explique brevemente o que tornou esse documento superior aos outros..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Algum dos documentos parece ter sido gerado por IA? Se sim, qual(is) e por que?</label>
+            <textarea id="ai-detection" placeholder="Indique quais documentos (A, B, C) parecem gerados por IA e o que lhe deu essa impressao..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Comentarios gerais (opcional)</label>
+            <textarea id="general-comments" placeholder="Qualquer observacao adicional sobre os documentos ou sobre esta avaliacao..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Quanto tempo aproximado voce levou nesta avaliacao? (minutos)</label>
+            <input type="number" id="time-spent" min="1" max="180" placeholder="Ex: 35">
+          </div>
+
+          <button class="btn btn-primary btn-lg btn-block" id="btn-submit" onclick="submitAll()">
+            Enviar Avaliacao
+          </button>
+          <div id="submit-error" class="alert alert-error hidden" style="margin-top:1rem"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="js/supabase.js"></script>
+  <script>
+    // ============================================
+    // State
+    // ============================================
+    let evaluator = null;
+    let docOrder = [];     // e.g. ["hd", "bl", "ad"]
+    let currentStep = -1;  // -1 = briefing, 0-2 = docs, 3 = qualitative
+    let savedScores = {};  // { "A": {c1:..., c2:...}, "B": {...}, "C": {...} }
+    let startTime = Date.now();
+
+    const LABELS = ['A', 'B', 'C'];
+
+    const DOMAIN_NAMES = {
+      juridico: 'Juridico',
+      tributario: 'Tributario',
+      tecnico: 'Tecnico'
+    };
+
+    // ============================================
+    // Output data (embedded — replace with real outputs)
+    // ============================================
+    const OUTPUTS = {};
+    const BRIEFINGS = {};
+
+    // These will be loaded from data/ files
+    async function loadContent() {
+      const domains = ['juridico', 'tributario', 'tecnico'];
+      const conditions = ['bl', 'ad', 'hd'];
+
+      for (const d of domains) {
+        OUTPUTS[d] = {};
+        for (const c of conditions) {
+          try {
+            const resp = await fetch(`data/outputs/${d}_${c}.md`);
+            OUTPUTS[d][c] = resp.ok ? await resp.text() : `[Documento ${d}/${c} ainda nao disponivel]`;
+          } catch {
+            OUTPUTS[d][c] = `[Documento ${d}/${c} ainda nao disponivel]`;
+          }
+        }
+        try {
+          const resp = await fetch(`data/cases/${d}_briefing.md`);
+          BRIEFINGS[d] = resp.ok ? await resp.text() : `[Briefing ${d} ainda nao disponivel]`;
+        } catch {
+          BRIEFINGS[d] = `[Briefing ${d} ainda nao disponivel]`;
+        }
+      }
+    }
+
+    // ============================================
+    // Init
+    // ============================================
+    async function init() {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+
+      if (!token) {
+        showError('Token nao encontrado. Volte ao cadastro.');
+        return;
+      }
+
+      try {
+        evaluator = await db.getEvaluator(token);
+        docOrder = evaluator.randomizations?.[0]?.doc_order || ['bl', 'ad', 'hd'];
+
+        document.getElementById('evaluator-info').textContent =
+          `${evaluator.name} — ${DOMAIN_NAMES[evaluator.domain]} — ${evaluator.years_experience} anos de experiencia`;
+
+        // Load content
+        await loadContent();
+
+        // Check existing evaluations (resume support)
+        const existing = await db.getEvaluations(evaluator.id);
+        for (const ev of existing) {
+          savedScores[ev.document_label] = {
+            c1: ev.c1_usability,
+            c2: ev.c2_precision,
+            c3: ev.c3_structure,
+            c4: ev.c4_depth,
+            c5: ev.c5_actionability,
+            c6: ev.c6_substance_ratio
+          };
+        }
+
+        // Show briefing
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('eval-area').classList.remove('hidden');
+
+        const briefingHtml = marked.parse(BRIEFINGS[evaluator.domain] || '');
+        document.getElementById('briefing-content').innerHTML = briefingHtml;
+
+        // If already completed some docs, skip ahead
+        const completedCount = Object.keys(savedScores).length;
+        if (completedCount >= 3) {
+          startEvaluation();
+          goToStep(3); // qualitative
+        }
+
+      } catch (err) {
+        showError(err.message);
+      }
+    }
+
+    function showError(msg) {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('load-error').textContent = msg;
+      document.getElementById('error-container').classList.remove('hidden');
+    }
+
+    // ============================================
+    // Navigation
+    // ============================================
+    function startEvaluation() {
+      document.getElementById('briefing-card').classList.add('hidden');
+      goToStep(0);
+    }
+
+    function goToStep(step) {
+      currentStep = step;
+      updateSteps();
+      updateProgress();
+
+      if (step >= 0 && step <= 2) {
+        // Show document evaluation
+        document.getElementById('doc-eval').classList.remove('hidden');
+        document.getElementById('qualitative').classList.add('hidden');
+        loadDocument(step);
+      } else if (step === 3) {
+        // Show qualitative
+        document.getElementById('doc-eval').classList.add('hidden');
+        document.getElementById('qualitative').classList.remove('hidden');
+      }
+    }
+
+    function updateSteps() {
+      document.querySelectorAll('.step').forEach(el => {
+        const s = parseInt(el.dataset.step);
+        el.classList.remove('active', 'done');
+        if (s === currentStep) el.classList.add('active');
+        else if (s < currentStep) el.classList.add('done');
+      });
+    }
+
+    function updateProgress() {
+      const pct = ((currentStep + 1) / 4) * 100;
+      document.getElementById('progress-fill').style.width = pct + '%';
+    }
+
+    function loadDocument(index) {
+      const label = LABELS[index];
+      const condition = docOrder[index];
+      const content = OUTPUTS[evaluator.domain]?.[condition] || '[Conteudo nao disponivel]';
+
+      document.getElementById('doc-title').textContent = `Documento ${label}`;
+      document.getElementById('doc-eval-title').textContent = `Documento ${label}`;
+      document.getElementById('doc-content').innerHTML = marked.parse(content);
+
+      // Restore saved scores if any
+      if (savedScores[label]) {
+        for (let i = 1; i <= 6; i++) {
+          const val = savedScores[label][`c${i}`];
+          if (val) {
+            const radio = document.querySelector(`input[name="c${i}"][value="${val}"]`);
+            if (radio) radio.checked = true;
+          }
+        }
+      } else {
+        // Clear all radios
+        for (let i = 1; i <= 6; i++) {
+          document.querySelectorAll(`input[name="c${i}"]`).forEach(r => r.checked = false);
+        }
+      }
+
+      // Update nav buttons
+      document.getElementById('btn-prev').classList.toggle('hidden', index === 0);
+      document.getElementById('btn-next').textContent =
+        index === 2 ? 'Ir para perguntas finais' : 'Proximo documento';
+
+      // Scroll doc viewer to top
+      document.getElementById('doc-content').scrollTop = 0;
+    }
+
+    function getScores() {
+      const scores = {};
+      let allFilled = true;
+      for (let i = 1; i <= 6; i++) {
+        const checked = document.querySelector(`input[name="c${i}"]:checked`);
+        if (checked) {
+          scores[`c${i}`] = parseInt(checked.value);
+        } else {
+          allFilled = false;
+        }
+      }
+      return { scores, allFilled };
+    }
+
+    async function nextDoc() {
+      const { scores, allFilled } = getScores();
+      if (!allFilled) {
+        alert('Por favor, avalie todos os 6 criterios antes de prosseguir.');
+        return;
+      }
+
+      const label = LABELS[currentStep];
+      const condition = docOrder[currentStep];
+      savedScores[label] = scores;
+
+      // Save to database
+      try {
+        await db.saveEvaluation({
+          evaluatorId: evaluator.id,
+          documentLabel: label,
+          condition: condition,
+          scores: scores
+        });
+      } catch (err) {
+        console.error('Error saving:', err);
+        // Continue anyway — data is in savedScores
+      }
+
+      goToStep(currentStep + 1);
+      window.scrollTo(0, 0);
+    }
+
+    function prevDoc() {
+      // Save current scores locally (don't require all filled)
+      const { scores } = getScores();
+      const label = LABELS[currentStep];
+      if (Object.keys(scores).length > 0) {
+        savedScores[label] = { ...savedScores[label], ...scores };
+      }
+
+      goToStep(currentStep - 1);
+      window.scrollTo(0, 0);
+    }
+
+    async function submitAll() {
+      const preferred = document.getElementById('preferred-doc').value;
+      if (!preferred) {
+        alert('Por favor, selecione qual documento voce entregaria a um cliente.');
+        return;
+      }
+
+      const submitBtn = document.getElementById('btn-submit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+
+      try {
+        const elapsed = Math.round((Date.now() - startTime) / 60000);
+
+        await db.saveQualitative({
+          evaluatorId: evaluator.id,
+          preferredDoc: preferred,
+          preferenceReason: document.getElementById('preference-reason').value.trim(),
+          aiDetectedDocs: document.getElementById('ai-detection').value.trim(),
+          aiDetectionReason: document.getElementById('ai-detection').value.trim(),
+          generalComments: document.getElementById('general-comments').value.trim(),
+          timeSpentMinutes: parseInt(document.getElementById('time-spent').value) || elapsed
+        });
+
+        window.location.href = 'thanks.html';
+      } catch (err) {
+        document.getElementById('submit-error').textContent = 'Erro ao enviar. Tente novamente.';
+        document.getElementById('submit-error').classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enviar Avaliacao';
+      }
+    }
+
+    // Start
+    init();
+  </script>
+</body>
+</html>

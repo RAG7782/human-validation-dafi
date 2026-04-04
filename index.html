@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validacao Humana — Pesquisa DA/FI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Pesquisa: Qualidade de Documentos Profissionais gerados por IA</h1>
+      <p>Artisanal Intelligence Program — Renato Aparecido Gomes (ORCID: 0009-0005-7380-9876)</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Intro -->
+    <div class="card">
+      <h2>Sobre esta pesquisa</h2>
+      <p>Estamos investigando como diferentes abordagens de estruturacao influenciam a qualidade de documentos profissionais gerados por inteligencia artificial.</p>
+      <p style="margin-top:0.75rem">Voce recebera <strong>3 documentos anonimizados</strong> do seu dominio de atuacao e devera avalia-los em 6 criterios. O tempo estimado e de <strong>30 a 45 minutos</strong>.</p>
+      <p style="margin-top:0.75rem">Sua participacao sera creditada nos agradecimentos da publicacao academica resultante.</p>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="card" id="register-card">
+      <h2>Cadastro do Avaliador</h2>
+      <form id="register-form">
+        <div class="form-group">
+          <label for="name">Nome completo</label>
+          <input type="text" id="name" required placeholder="Seu nome completo">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required placeholder="seu@email.com">
+          <div class="hint">Usado apenas para controle da pesquisa. Nao sera compartilhado.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="domain">Area de atuacao</label>
+          <select id="domain" required>
+            <option value="">Selecione seu dominio...</option>
+            <option value="juridico">Juridico (Direito Empresarial / LGPD)</option>
+            <option value="tributario">Tributario (Direito Tributario / Contabilidade)</option>
+            <option value="tecnico">Tecnico (Engenharia de Software)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="qualification">Qualificacao profissional</label>
+          <input type="text" id="qualification" required placeholder="Ex: OAB/SP 123456, CRC/SP 456789, CREA/SP 123456">
+          <div class="hint">Registro profissional ou credencial equivalente.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="years">Anos de experiencia na area</label>
+          <input type="number" id="years" required min="1" max="50" placeholder="Ex: 10">
+        </div>
+
+        <div class="alert alert-info">
+          Ao se cadastrar, voce confirma que e profissional atuante na area selecionada e que concorda em avaliar os documentos de forma imparcial, sem saber como foram produzidos.
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit-btn">
+          Cadastrar e Iniciar Avaliacao
+        </button>
+
+        <div id="error-msg" class="alert alert-error hidden" style="margin-top:1rem"></div>
+      </form>
+    </div>
+
+    <!-- Already registered -->
+    <div class="card hidden" id="return-card">
+      <h2>Ja esta cadastrado?</h2>
+      <p>Se voce ja se cadastrou e precisa retomar a avaliacao, insira seu email:</p>
+      <form id="return-form" style="margin-top:1rem">
+        <div class="form-group">
+          <label for="return-email">Email cadastrado</label>
+          <input type="email" id="return-email" required placeholder="seu@email.com">
+        </div>
+        <button type="submit" class="btn btn-secondary">Retomar Avaliacao</button>
+        <div id="return-error" class="alert alert-error hidden" style="margin-top:1rem"></div>
+      </form>
+    </div>
+
+    <p style="text-align:center; margin-top:1rem">
+      <a href="#" id="toggle-return" style="font-size:0.85rem; color:var(--text-light)">
+        Ja se cadastrou? Clique aqui para retomar.
+      </a>
+    </p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <script>
+    const form = document.getElementById('register-form');
+    const returnForm = document.getElementById('return-form');
+    const toggleReturn = document.getElementById('toggle-return');
+    const errorMsg = document.getElementById('error-msg');
+    const returnError = document.getElementById('return-error');
+    const submitBtn = document.getElementById('submit-btn');
+
+    toggleReturn.addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('return-card').classList.toggle('hidden');
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorMsg.classList.add('hidden');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Cadastrando...';
+
+      try {
+        const evaluator = await db.registerEvaluator({
+          name: document.getElementById('name').value.trim(),
+          email: document.getElementById('email').value.trim().toLowerCase(),
+          domain: document.getElementById('domain').value,
+          qualification: document.getElementById('qualification').value.trim(),
+          yearsExperience: parseInt(document.getElementById('years').value)
+        });
+
+        // Redirect to evaluation page
+        window.location.href = `evaluate.html?token=${evaluator.access_token}`;
+      } catch (err) {
+        errorMsg.textContent = err.message || 'Erro ao cadastrar. Tente novamente.';
+        errorMsg.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Cadastrar e Iniciar Avaliacao';
+      }
+    });
+
+    returnForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      returnError.classList.add('hidden');
+
+      try {
+        const sb = getSupabase();
+        const email = document.getElementById('return-email').value.trim().toLowerCase();
+        const { data, error } = await sb
+          .from('evaluators')
+          .select('access_token')
+          .eq('email', email)
+          .single();
+
+        if (error || !data) {
+          throw new Error('Email nao encontrado. Verifique se digitou corretamente.');
+        }
+
+        window.location.href = `evaluate.html?token=${data.access_token}`;
+      } catch (err) {
+        returnError.textContent = err.message;
+        returnError.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
