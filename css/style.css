@@ -1092,6 +1092,16 @@ header p {
    16. UTILITIES
    ================================================================ */
 
+/* Text alignment utilities */
+.text-justify {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+
 .hidden {
   display: none !important;
 }
