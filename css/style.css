@@ -375,7 +375,7 @@ textarea {
 
 .btn-primary:disabled {
   background: var(--border-strong);
-  color: var(--text-faint);
+  color: var(--text-secondary);
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
