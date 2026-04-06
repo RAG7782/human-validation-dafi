@@ -1416,14 +1416,14 @@ header p {
   justify-content: center;
   width: 72px;
   height: 72px;
-  border: 2px solid rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.5);
   border-radius: var(--radius-lg);
   font-size: var(--text-3xl);
   font-weight: 700;
   letter-spacing: 0.08em;
   color: #ffffff;
   margin: 0 auto var(--space-6);
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.08);
   backdrop-filter: blur(4px);
 }
 
@@ -1442,10 +1442,10 @@ header p {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: var(--tracking-wider);
-  color: rgba(255,255,255,0.75);
+  color: #ffffff;
   margin-bottom: var(--space-6);
   padding: var(--space-1) var(--space-4);
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.5);
   border-radius: var(--radius-pill);
 }
 
@@ -1461,7 +1461,7 @@ header p {
 
 .hero-subtitle {
   font-size: var(--text-lg);
-  color: rgba(255,255,255,0.8);
+  color: rgba(255,255,255,0.95);
   margin: 0 auto var(--space-10);
   max-width: 520px;
   font-weight: 400;
@@ -1474,8 +1474,8 @@ header p {
    ================================================================ */
 
 .researcher-card {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.25);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
   max-width: 640px;
@@ -1539,7 +1539,7 @@ header p {
   align-items: center;
   gap: var(--space-2);
   font-size: var(--text-sm);
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.9);
   text-decoration: none;
   transition: color var(--duration) var(--ease-out);
 }
@@ -1574,18 +1574,18 @@ header p {
   flex-direction: column;
   gap: var(--space-1);
   font-size: var(--text-sm);
-  color: rgba(255,255,255,0.8);
+  color: #ffffff;
   padding: var(--space-3);
   border-radius: var(--radius);
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.08);
 }
 
 .detail-label {
   font-size: var(--text-xs);
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: var(--tracking-wider);
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.9);
 }
 
 
