@@ -1574,10 +1574,10 @@ header p {
   flex-direction: column;
   gap: var(--space-1);
   font-size: var(--text-sm);
-  color: #ffffff;
+  color: var(--text);
   padding: var(--space-3);
   border-radius: var(--radius);
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.85);
 }
 
 .detail-label {
@@ -1585,7 +1585,7 @@ header p {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: var(--tracking-wider);
-  color: #ffffff;
+  color: var(--accent);
 }
 
 
