@@ -374,11 +374,12 @@ textarea {
 }
 
 .btn-primary:disabled {
-  background: var(--border-strong);
-  color: var(--text-secondary);
+  background: var(--border);
+  color: var(--primary-muted);
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
+  opacity: 0.7;
 }
 
 .btn-secondary {
